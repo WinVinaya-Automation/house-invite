@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+  <text y='.9em' font-size='90'>🏡</text>
+</svg>"
+    />
+    <title>Housewarming Invitation</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .bg {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c")
+          center/cover no-repeat;
+        z-index: -2;
+      }
+
+      .overlay {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: -1;
+      }
+
+      /* particles */
+      .particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: float 12s linear infinite;
+      }
+
+      @keyframes float {
+        from {
+          transform: translateY(100vh);
+        }
+        to {
+          transform: translateY(-10vh);
+        }
+      }
+
+      /* language */
+      .lang {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+      }
+      .lang button {
+        margin-left: 8px;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      .active {
+        background: #fff;
+        color: #000;
+      }
+
+      /* card */
+      .card {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 380px;
+        padding: 30px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        color: #fff;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+
+      .title {
+        font-size: 26px;
+        font-weight: bold;
+      }
+      .name {
+        margin: 10px 0;
+        font-weight: bold;
+      }
+      .text {
+        margin-top: 8px;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+      .info {
+        margin-top: 12px;
+      }
+      .address {
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      .footer {
+        margin-top: 12px;
+        font-size: 13px;
+        opacity: 0.8;
+      }
+
+      /* countdown */
+      .countdown {
+        position: fixed;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        padding: 10px 18px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .countdown div span {
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg"></div>
+    <div class="overlay">
+      <!-- Countdown -->
+      <div class="countdown">
+        <div><span id="days">0</span>Days</div>
+        <div><span id="hours">0</span>Hrs</div>
+        <div><span id="minutes">0</span>Min</div>
+        <div><span id="seconds">0</span>Sec</div>
+      </div>
+    </div>
+
+    <script>
+      for (let i = 0; i < 30; i++) {
+        let p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.animationDuration = 6 + Math.random() * 10 + "s";
+        document.body.appendChild(p);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const eventStart = new Date(2026, 4, 29, 6, 0, 0).getTime(); // May = 4 (0-based)
+        const eventEnd = new Date(2026, 4, 29, 9, 0, 0).getTime();
+
+        function updateCountdown() {
+          const now = new Date().getTime();
+          const box = document.querySelector(".countdown");
+
+          if (!box) return;
+
+          // 🔥 ONGOING
+          if (now >= eventStart && now <= eventEnd) {
+            box.innerHTML = "🎉 Ceremony is ONGOING 🎉";
+            return;
+          }
+
+          // 🙏 COMPLETED
+          if (now > eventEnd) {
+            box.innerHTML = "🙏 Ceremony Completed";
+            return;
+          }
+
+          // ⏳ COUNTDOWN
+          const diff = eventStart - now;
+
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diff / (1000 * 60)) % 60);
+          const seconds = Math.floor((diff / 1000) % 60);
+
+          const d = document.getElementById("days");
+          const h = document.getElementById("hours");
+          const m = document.getElementById("minutes");
+          const s = document.getElementById("seconds");
+
+          if (d) d.innerText = days;
+          if (h) h.innerText = hours;
+          if (m) m.innerText = minutes;
+          if (s) s.innerText = seconds;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      });
+    </script>
+
+    <div class="lang">
+      <button id="enBtn" onclick="setLang('en')">EN</button>
+      <button id="taBtn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+
+    <div class="card">
+      <div class="title" id="title"></div>
+
+      <div class="text" id="welcomeLine"></div>
+
+      <div id="line1"></div>
+      <div class="name" id="name"></div>
+      <div id="line2"></div>
+
+      <div class="info" id="info"></div>
+
+      <div class="address" id="address"></div>
+
+      <div class="text" id="meal"></div>
+
+      <div class="footer" id="footer"></div>
+    </div>
+
+    <script>
+      function setLang(lang) {
+        document.getElementById("enBtn").classList.remove("active");
+        document.getElementById("taBtn").classList.remove("active");
+
+        if (lang === "en") {
+          document.getElementById("enBtn").classList.add("active");
+
+          document.getElementById("title").innerText = "🏡 House Warming";
+
+          document.getElementById("welcomeLine").innerText =
+            "We are delighted to invite you to celebrate this special occasion with us.";
+
+          document.getElementById("line1").innerText = "With love,";
+          document.getElementById("name").innerText = "Rajagopal & Family";
+          document.getElementById("line2").innerText =
+            "invite you to our new home ceremony";
+
+          document.getElementById("info").innerHTML =
+            "<b>Date:</b> May 29, 2026<br><b>Time:</b> 6:00 AM – 9:00 AM";
+
+          document.getElementById("address").innerHTML =
+            "📍 25/3, Old Sunnabhukara Street<br>Musiri, Trichy, TN - 621211";
+
+          document.getElementById("meal").innerText =
+            "Breakfast will be served after the ceremony.";
+
+          document.getElementById("footer").innerText =
+            "Your presence and blessings mean a lot to us 🙏";
+        } else {
+          document.getElementById("taBtn").classList.add("active");
+
+          document.getElementById("title").innerText = "🏡 புதுமனை புகுவிழா";
+
+          document.getElementById("welcomeLine").innerText =
+            "இந்த இனிய நிகழ்வில் தங்களை அன்புடன் வரவேற்கிறோம்.";
+
+          document.getElementById("line1").innerText = "அன்புடன்";
+          document.getElementById("name").innerText =
+            "ராஜகோபால் & குடும்பத்தினர்";
+          document.getElementById("line2").innerText =
+            "எங்கள் புதிய இல்ல விழாவிற்கு அழைக்கிறோம்";
+
+          document.getElementById("info").innerHTML =
+            "<b>தேதி:</b> மே 29, 2026<br><b>நேரம்:</b> காலை 6:00 – 9:00";
+
+          document.getElementById("address").innerHTML =
+            "📍 25/3, பழைய சுண்ணாம்புக்கார தெரு<br>முசிறி, திருச்சி, TN - 621211";
+
+          document.getElementById("meal").innerText =
+            "நிகழ்ச்சி முடிவில் காலை உணவு வழங்கப்படும்.";
+
+          document.getElementById("footer").innerText =
+            "தங்களின் வருகை மற்றும் ஆசீர்வாதம் எங்களுக்கு மகிழ்ச்சி தரும் 🙏";
+        }
+      }
+
+      window.onload = function () {
+        setLang("en");
+      };
+    </script>
+  </body>
+</html>
