@@ -38,7 +38,6 @@
         z-index: -1;
       }
 
-      /* particles */
       .particle {
         position: absolute;
         width: 6px;
@@ -50,15 +49,10 @@
       }
 
       @keyframes float {
-        from {
-          transform: translateY(100vh);
-        }
-        to {
-          transform: translateY(-10vh);
-        }
+        from { transform: translateY(100vh); }
+        to { transform: translateY(-10vh); }
       }
 
-      /* language */
       .lang {
         position: fixed;
         top: 20px;
@@ -76,7 +70,6 @@
         color: #000;
       }
 
-      /* card */
       .card {
         position: absolute;
         top: 50%;
@@ -92,33 +85,13 @@
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       }
 
-      .title {
-        font-size: 26px;
-        font-weight: bold;
-      }
-      .name {
-        margin: 10px 0;
-        font-weight: bold;
-      }
-      .text {
-        margin-top: 8px;
-        font-size: 14px;
-        opacity: 0.9;
-      }
-      .info {
-        margin-top: 12px;
-      }
-      .address {
-        margin-top: 10px;
-        font-size: 14px;
-      }
-      .footer {
-        margin-top: 12px;
-        font-size: 13px;
-        opacity: 0.8;
-      }
+      .title { font-size: 26px; font-weight: bold; }
+      .name { margin: 10px 0; font-weight: bold; }
+      .text { margin-top: 8px; font-size: 14px; opacity: 0.9; }
+      .info { margin-top: 12px; }
+      .address { margin-top: 10px; font-size: 14px; }
+      .footer { margin-top: 12px; font-size: 13px; opacity: 0.8; }
 
-      /* countdown */
       .countdown {
         position: fixed;
         top: 15px;
@@ -146,7 +119,6 @@
   <body>
     <div class="bg"></div>
     <div class="overlay">
-      <!-- Countdown -->
       <div class="countdown">
         <div><span id="days">0</span>Days</div>
         <div><span id="hours">0</span>Hrs</div>
@@ -165,7 +137,7 @@
       }
 
       document.addEventListener("DOMContentLoaded", function () {
-        const eventStart = new Date(2026, 4, 29, 6, 0, 0).getTime(); // May = 4 (0-based)
+        const eventStart = new Date(2026, 4, 29, 6, 0, 0).getTime();
         const eventEnd = new Date(2026, 4, 29, 9, 0, 0).getTime();
 
         function updateCountdown() {
@@ -174,35 +146,26 @@
 
           if (!box) return;
 
-          // 🔥 ONGOING
           if (now >= eventStart && now <= eventEnd) {
             box.innerHTML = "🎉 Ceremony is ONGOING 🎉";
             return;
           }
 
-          // 🙏 COMPLETED
           if (now > eventEnd) {
             box.innerHTML = "🙏 Ceremony Completed";
             return;
           }
 
-          // ⏳ COUNTDOWN
           const diff = eventStart - now;
 
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-          const minutes = Math.floor((diff / (1000 * 60)) % 60);
-          const seconds = Math.floor((diff / 1000) % 60);
-
-          const d = document.getElementById("days");
-          const h = document.getElementById("hours");
-          const m = document.getElementById("minutes");
-          const s = document.getElementById("seconds");
-
-          if (d) d.innerText = days;
-          if (h) h.innerText = hours;
-          if (m) m.innerText = minutes;
-          if (s) s.innerText = seconds;
+          document.getElementById("days").innerText =
+            Math.floor(diff / (1000 * 60 * 60 * 24));
+          document.getElementById("hours").innerText =
+            Math.floor((diff / (1000 * 60 * 60)) % 24);
+          document.getElementById("minutes").innerText =
+            Math.floor((diff / (1000 * 60)) % 60);
+          document.getElementById("seconds").innerText =
+            Math.floor((diff / 1000) % 60);
         }
 
         updateCountdown();
@@ -213,23 +176,18 @@
     <div class="lang">
       <button id="enBtn" onclick="setLang('en')">EN</button>
       <button id="taBtn" onclick="setLang('ta')">தமிழ்</button>
+      <button id="knBtn" onclick="setLang('kn')">ಕನ್ನಡ</button>
     </div>
 
     <div class="card">
       <div class="title" id="title"></div>
-
       <div class="text" id="welcomeLine"></div>
-
       <div id="line1"></div>
       <div class="name" id="name"></div>
       <div id="line2"></div>
-
       <div class="info" id="info"></div>
-
       <div class="address" id="address"></div>
-
       <div class="text" id="meal"></div>
-
       <div class="footer" id="footer"></div>
     </div>
 
@@ -237,56 +195,65 @@
       function setLang(lang) {
         document.getElementById("enBtn").classList.remove("active");
         document.getElementById("taBtn").classList.remove("active");
+        document.getElementById("knBtn").classList.remove("active");
 
         if (lang === "en") {
           document.getElementById("enBtn").classList.add("active");
 
-          document.getElementById("title").innerText = "🏡 House Warming";
-
-          document.getElementById("welcomeLine").innerText =
+          title.innerText = "🏡 House Warming";
+          welcomeLine.innerText =
             "We are delighted to invite you to celebrate this special occasion with us.";
+          line1.innerText = "With love,";
+          name.innerText = "Rajagopal & Family";
+          line2.innerText = "invite you to our new home ceremony";
 
-          document.getElementById("line1").innerText = "With love,";
-          document.getElementById("name").innerText = "Rajagopal & Family";
-          document.getElementById("line2").innerText =
-            "invite you to our new home ceremony";
-
-          document.getElementById("info").innerHTML =
+          info.innerHTML =
             "<b>Date:</b> May 29, 2026<br><b>Time:</b> 6:00 AM – 9:00 AM";
-
-          document.getElementById("address").innerHTML =
+          address.innerHTML =
             "📍 25/3, Old Sunnabhukara Street<br>Musiri, Trichy, TN - 621211";
-
-          document.getElementById("meal").innerText =
-            "Breakfast will be served after the ceremony.";
-
-          document.getElementById("footer").innerText =
+          meal.innerText = "Breakfast will be served after the ceremony.";
+          footer.innerText =
             "Your presence and blessings mean a lot to us 🙏";
-        } else {
+
+        } else if (lang === "ta") {
           document.getElementById("taBtn").classList.add("active");
 
-          document.getElementById("title").innerText = "🏡 புதுமனை புகுவிழா";
-
-          document.getElementById("welcomeLine").innerText =
+          title.innerText = "🏡 புதுமனை புகுவிழா";
+          welcomeLine.innerText =
             "இந்த இனிய நிகழ்வில் தங்களை அன்புடன் வரவேற்கிறோம்.";
-
-          document.getElementById("line1").innerText = "அன்புடன்";
-          document.getElementById("name").innerText =
-            "ராஜகோபால் & குடும்பத்தினர்";
-          document.getElementById("line2").innerText =
+          line1.innerText = "அன்புடன்";
+          name.innerText = "ராஜகோபால் & குடும்பத்தினர்";
+          line2.innerText =
             "எங்கள் புதிய இல்ல விழாவிற்கு அழைக்கிறோம்";
 
-          document.getElementById("info").innerHTML =
+          info.innerHTML =
             "<b>தேதி:</b> மே 29, 2026<br><b>நேரம்:</b> காலை 6:00 – 9:00";
-
-          document.getElementById("address").innerHTML =
+          address.innerHTML =
             "📍 25/3, பழைய சுண்ணாம்புக்கார தெரு<br>முசிறி, திருச்சி, TN - 621211";
-
-          document.getElementById("meal").innerText =
+          meal.innerText =
             "நிகழ்ச்சி முடிவில் காலை உணவு வழங்கப்படும்.";
-
-          document.getElementById("footer").innerText =
+          footer.innerText =
             "தங்களின் வருகை மற்றும் ஆசீர்வாதம் எங்களுக்கு மகிழ்ச்சி தரும் 🙏";
+
+        } else if (lang === "kn") {
+          document.getElementById("knBtn").classList.add("active");
+
+          title.innerText = "🏡 ಗೃಹ ಪ್ರವೇಶ";
+          welcomeLine.innerText =
+            "ಈ ಶುಭ ಸಂದರ್ಭದಲ್ಲಿ ನಮ್ಮೊಂದಿಗೆ ಸೇರಲು ನಿಮಗೆ ಹೃತ್ಪೂರ್ವಕ ಆಹ್ವಾನ.";
+          line1.innerText = "ಪ್ರೀತಿಯಿಂದ";
+          name.innerText = "ರಾಜಗೋಪಾಲ್ & ಕುಟುಂಬ";
+          line2.innerText =
+            "ನಮ್ಮ ಹೊಸ ಮನೆಯ ಕಾರ್ಯಕ್ರಮಕ್ಕೆ ನಿಮ್ಮನ್ನು ಆಹ್ವಾನಿಸುತ್ತೇವೆ";
+
+          info.innerHTML =
+            "<b>ದಿನಾಂಕ:</b> ಮೇ 29, 2026<br><b>ಸಮಯ:</b> ಬೆಳಿಗ್ಗೆ 6:00 – 9:00";
+          address.innerHTML =
+            "📍 25/3, ಹಳೆಯ ಸುಣ್ಣಾಂಬುಕಾರೆ ರಸ್ತೆ<br>ಮುಸಿರಿ, ತಿರುಚಿ, TN - 621211";
+          meal.innerText =
+            "ಕಾರ್ಯಕ್ರಮದ ನಂತರ ಉಪಹಾರ ವ್ಯವಸ್ಥೆ ಇದೆ.";
+          footer.innerText =
+            "ನಿಮ್ಮ ಉಪಸ್ಥಿತಿ ಮತ್ತು ಆಶೀರ್ವಾದ ನಮಗೆ ಸಂತೋಷ ತರುತ್ತದೆ 🙏";
         }
       }
 
