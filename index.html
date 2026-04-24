@@ -53,21 +53,18 @@
         to { transform: translateY(-10vh); }
       }
 
+      /* dropdown */
       .lang {
         position: fixed;
         top: 20px;
         right: 20px;
       }
-      .lang button {
-        margin-left: 8px;
+
+      .lang select {
         padding: 6px 12px;
-        border: none;
         border-radius: 20px;
+        border: none;
         cursor: pointer;
-      }
-      .active {
-        background: #fff;
-        color: #000;
       }
 
       .card {
@@ -173,10 +170,13 @@
       });
     </script>
 
+    <!-- DROPDOWN -->
     <div class="lang">
-      <button id="enBtn" onclick="setLang('en')">EN</button>
-      <button id="taBtn" onclick="setLang('ta')">தமிழ்</button>
-      <button id="knBtn" onclick="setLang('kn')">ಕನ್ನಡ</button>
+      <select id="langSelect" onchange="setLang(this.value)">
+        <option value="ta">தமிழ்</option>
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
     </div>
 
     <div class="card">
@@ -193,13 +193,8 @@
 
     <script>
       function setLang(lang) {
-        document.getElementById("enBtn").classList.remove("active");
-        document.getElementById("taBtn").classList.remove("active");
-        document.getElementById("knBtn").classList.remove("active");
 
         if (lang === "en") {
-          document.getElementById("enBtn").classList.add("active");
-
           title.innerText = "🏡 House Warming";
           welcomeLine.innerText =
             "We are delighted to invite you to celebrate this special occasion with us.";
@@ -216,8 +211,6 @@
             "Your presence and blessings mean a lot to us 🙏";
 
         } else if (lang === "ta") {
-          document.getElementById("taBtn").classList.add("active");
-
           title.innerText = "🏡 புதுமனை புகுவிழா";
           welcomeLine.innerText =
             "இந்த இனிய நிகழ்வில் தங்களை அன்புடன் வரவேற்கிறோம்.";
@@ -236,8 +229,6 @@
             "தங்களின் வருகை மற்றும் ஆசீர்வாதம் எங்களுக்கு மகிழ்ச்சி தரும் 🙏";
 
         } else if (lang === "kn") {
-          document.getElementById("knBtn").classList.add("active");
-
           title.innerText = "🏡 ಗೃಹ ಪ್ರವೇಶ";
           welcomeLine.innerText =
             "ಈ ಶುಭ ಸಂದರ್ಭದಲ್ಲಿ ನಮ್ಮೊಂದಿಗೆ ಸೇರಲು ನಿಮಗೆ ಹೃತ್ಪೂರ್ವಕ ಆಹ್ವಾನ.";
@@ -258,7 +249,8 @@
       }
 
       window.onload = function () {
-        setLang("en");
+        document.getElementById("langSelect").value = "ta";
+        setLang("ta");
       };
     </script>
   </body>
