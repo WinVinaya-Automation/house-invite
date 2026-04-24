@@ -53,7 +53,6 @@
         to { transform: translateY(-10vh); }
       }
 
-      /* dropdown */
       .lang {
         position: fixed;
         top: 20px;
@@ -133,67 +132,43 @@
         document.body.appendChild(p);
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const eventStart = new Date(2026, 4, 29, 6, 0, 0).getTime();
-        const eventEnd = new Date(2026, 4, 29, 9, 0, 0).getTime();
+      function updateCountdown() {
+        const now = new Date();
+        const box = document.querySelector(".countdown");
 
-        function updateCountdown() {
-          const now = new Date().getTime();
-          const box = document.querySelector(".countdown");
+        if (!box) return;
 
-          if (!box) return;
+        const start = new Date();
+        start.setHours(6, 0, 0, 0); // 6:00 AM
 
-          if (now >= eventStart && now <= eventEnd) {
-            box.innerHTML = "🎉 Ceremony is ONGOING 🎉";
-            return;
-          }
+        const end = new Date();
+        end.setHours(9, 0, 0, 0); // 9:00 AM
 
-          if (now > eventEnd) {
-            box.innerHTML = "🙏 Ceremony Completed";
-            return;
-          }
-
-          const diff = eventStart - now;
-
-          document.getElementById("days").innerText =
-            Math.floor(diff / (1000 * 60 * 60 * 24));
-          document.getElementById("hours").innerText =
-            Math.floor((diff / (1000 * 60 * 60)) % 24);
-          document.getElementById("minutes").innerText =
-            Math.floor((diff / (1000 * 60)) % 60);
-          document.getElementById("seconds").innerText =
-            Math.floor((diff / 1000) % 60);
+        if (now >= start && now <= end) {
+          box.innerHTML = "🎉 Event is going on (6:00 AM - 9:00 AM)";
+          return;
         }
 
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-      });
-    </script>
+        if (now > end) {
+          box.innerHTML = "🙏 Event has ended";
+          return;
+        }
 
-    <!-- DROPDOWN -->
-    <div class="lang">
-      <select id="langSelect" onchange="setLang(this.value)">
-        <option value="ta">தமிழ்</option>
-        <option value="en">English</option>
-        <option value="kn">ಕನ್ನಡ</option>
-      </select>
-    </div>
+        const diff = start - now;
 
-    <div class="card">
-      <div class="title" id="title"></div>
-      <div class="text" id="welcomeLine"></div>
-      <div id="line1"></div>
-      <div class="name" id="name"></div>
-      <div id="line2"></div>
-      <div class="info" id="info"></div>
-      <div class="address" id="address"></div>
-      <div class="text" id="meal"></div>
-      <div class="footer" id="footer"></div>
-    </div>
+        document.getElementById("days").innerText =
+          Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById("hours").innerText =
+          Math.floor((diff / (1000 * 60 * 60)) % 24);
+        document.getElementById("minutes").innerText =
+          Math.floor((diff / (1000 * 60)) % 60);
+        document.getElementById("seconds").innerText =
+          Math.floor((diff / 1000) % 60);
+      }
 
-    <script>
+      setInterval(updateCountdown, 1000);
+
       function setLang(lang) {
-
         if (lang === "en") {
           title.innerText = "🏡 House Warming";
           welcomeLine.innerText =
@@ -220,7 +195,7 @@
             "எங்கள் புதிய இல்ல விழாவிற்கு அழைக்கிறோம்";
 
           info.innerHTML =
-            "<b>தேதி:</b> மே 29, 2026<br><b>நேரம்:</b> காலை 6:00 – 9:00";
+            "<b>தேதி:</b> மே 29, 2026<br><b>நேரம்:</b> காலை 6:00 AM – 9:00 AM";
           address.innerHTML =
             "📍 25/3, பழைய சுண்ணாம்புக்கார தெரு<br>முசிறி, திருச்சி, TN - 621211";
           meal.innerText =
@@ -238,7 +213,7 @@
             "ನಮ್ಮ ಹೊಸ ಮನೆಯ ಕಾರ್ಯಕ್ರಮಕ್ಕೆ ನಿಮ್ಮನ್ನು ಆಹ್ವಾನಿಸುತ್ತೇವೆ";
 
           info.innerHTML =
-            "<b>ದಿನಾಂಕ:</b> ಮೇ 29, 2026<br><b>ಸಮಯ:</b> ಬೆಳಿಗ್ಗೆ 6:00 – 9:00";
+            "<b>ದಿನಾಂಕ:</b> ಮೇ 29, 2026<br><b>ಸಮಯ:</b> ಬೆಳಿಗ್ಗೆ 6:00 AM – 9:00 AM";
           address.innerHTML =
             "📍 25/3, ಹಳೆಯ ಸುಣ್ಣಾಂಬುಕಾರೆ ರಸ್ತೆ<br>ಮುಸಿರಿ, ತಿರುಚಿ, TN - 621211";
           meal.innerText =
@@ -251,7 +226,28 @@
       window.onload = function () {
         document.getElementById("langSelect").value = "ta";
         setLang("ta");
+        updateCountdown();
       };
     </script>
+
+    <div class="lang">
+      <select id="langSelect" onchange="setLang(this.value)">
+        <option value="ta">தமிழ்</option>
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="title" id="title"></div>
+      <div class="text" id="welcomeLine"></div>
+      <div id="line1"></div>
+      <div class="name" id="name"></div>
+      <div id="line2"></div>
+      <div class="info" id="info"></div>
+      <div class="address" id="address"></div>
+      <div class="text" id="meal"></div>
+      <div class="footer" id="footer"></div>
+    </div>
   </body>
 </html>
