@@ -132,39 +132,43 @@
         document.body.appendChild(p);
       }
 
-      function updateCountdown() {
-        const now = new Date();
-        const box = document.querySelector(".countdown");
+     function updateCountdown() {
+  const now = new Date();
+  const box = document.querySelector(".countdown");
 
-        if (!box) return;
+  if (!box) return;
 
-        const start = new Date();
-        start.setHours(6, 0, 0, 0); // 6:00 AM
+  // 📅 Event date (May 29, 2026)
+  const start = new Date(2026, 4, 29, 6, 0, 0); // May = 4
+  const end = new Date(2026, 4, 29, 9, 0, 0);
 
-        const end = new Date();
-        end.setHours(9, 0, 0, 0); // 9:00 AM
+  // 🔥 EVENT ONGOING
+  if (now >= start && now <= end) {
+    box.innerHTML = "🎉 Event is going on (May 29, 6:00 AM - 9:00 AM)";
+    return;
+  }
 
-        if (now >= start && now <= end) {
-          box.innerHTML = "🎉 Event is going on (6:00 AM - 9:00 AM)";
-          return;
-        }
+  // 🙏 EVENT ENDED
+  if (now > end) {
+    box.innerHTML = "🙏 Event has ended";
+    return;
+  }
 
-        if (now > end) {
-          box.innerHTML = "🙏 Event has ended";
-          return;
-        }
+  // ⏳ BEFORE EVENT → countdown
+  const diff = start - now;
 
-        const diff = start - now;
+  document.getElementById("days").innerText =
+    Math.floor(diff / (1000 * 60 * 60 * 24));
 
-        document.getElementById("days").innerText =
-          Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById("hours").innerText =
-          Math.floor((diff / (1000 * 60 * 60)) % 24);
-        document.getElementById("minutes").innerText =
-          Math.floor((diff / (1000 * 60)) % 60);
-        document.getElementById("seconds").innerText =
-          Math.floor((diff / 1000) % 60);
-      }
+  document.getElementById("hours").innerText =
+    Math.floor((diff / (1000 * 60 * 60)) % 24);
+
+  document.getElementById("minutes").innerText =
+    Math.floor((diff / (1000 * 60)) % 60);
+
+  document.getElementById("seconds").innerText =
+    Math.floor((diff / 1000) % 60);
+}
 
       setInterval(updateCountdown, 1000);
 
